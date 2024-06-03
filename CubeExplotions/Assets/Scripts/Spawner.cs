@@ -10,26 +10,46 @@ public class Spawner : MonoBehaviour
     [SerializeField] private float _cubeSize;
     [SerializeField] private List<Material> _materials;
 
+    private int _maxProbability = 100;
+
     public UnityAction<Cube> CubeCreated;
 
     private void Start()
     {
-        _cubeSample.transform.localScale = new Vector3(_cubeSize,_cubeSize,_cubeSize);
+        _cubeSample.transform.localScale = new Vector3(_cubeSize, _cubeSize, _cubeSize);
         _keeper.CubeRemoved += Create;
         Create(_cubeSample);
     }
 
     private void Create(Cube cube)
     {
-        int cubesCount = Random.Range(1, _maxCubesCount);
-        cube.transform.localScale = new Vector3(cube.transform.localScale.x / 2, cube.transform.localScale.y / 2, cube.transform.localScale.z / 2);
-
-        for (int i = 0; i < cubesCount; i++)
+        if (CalculateCreation(cube.GetDecayProbability()))
         {
-            int cubeColor = Random.Range(0, _materials.Count);
-            Cube newCube = Instantiate(cube, cube.transform.position, Quaternion.identity);
-            newCube.SetMaterial(_materials[cubeColor]);
-            CubeCreated?.Invoke(newCube);
+            int cubesCount = Random.Range(1, _maxCubesCount + 1);
+            cube.transform.localScale = new Vector3(cube.transform.localScale.x / 2, cube.transform.localScale.y / 2, cube.transform.localScale.z / 2);
+
+            for (int i = 0; i < cubesCount; i++)
+            {
+                int cubeColor = Random.Range(0, _materials.Count);
+                Cube newCube = Instantiate(cube, cube.transform.position, Quaternion.identity);
+                newCube.SetMaterial(_materials[cubeColor]);
+                newCube.DecreaseDecayProbability();
+                CubeCreated?.Invoke(newCube);
+            }
+        }
+    }
+
+    private bool CalculateCreation(int currentProbability)
+    {
+        int probabilityCreate = Random.Range(0, _maxProbability + 1);
+
+        if (probabilityCreate < currentProbability || currentProbability == 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }
