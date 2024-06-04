@@ -23,7 +23,7 @@ public class Spawner : MonoBehaviour
 
     private void Create(Cube cube)
     {
-        if (CalculateCreation(cube.GetDecayProbability()))
+        if (CalculateCreation(cube.DecayProbability))
         {
             int cubesCount = Random.Range(1, _maxCubesCount + 1);
             cube.transform.localScale = new Vector3(cube.transform.localScale.x / 2, cube.transform.localScale.y / 2, cube.transform.localScale.z / 2);
