@@ -18,29 +18,32 @@ public class Explotion : MonoBehaviour
 
     private void OnMouseUpAsButton()
     {
-        Implement();
         Pushed?.Invoke(_cube);
-        Destroy(gameObject);
     }
 
-    private void Implement()
+    public void Implement(List<Cube> cubes)
     {
-        foreach (Rigidbody explodableObject in GetExplodableObjects())
+        foreach (Rigidbody explodableObject in GetExplodableObjects(cubes))
         {
             explodableObject.AddExplosionForce(_force, transform.position, _range);
         }
+
+        Destroy(gameObject);
     }
 
-    private List<Rigidbody> GetExplodableObjects()
+    private List<Rigidbody> GetExplodableObjects(List<Cube> cubes)
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, _range);
         List<Rigidbody> reachesObjects = new List<Rigidbody>();
 
         foreach (Collider hit in hits)
         {
-            if (hit.attachedRigidbody != null)
+            foreach (Cube cube in cubes)
             {
-                reachesObjects.Add(hit.attachedRigidbody);
+                if (hit.attachedRigidbody == cube.GetComponent<Rigidbody>())
+                {
+                    reachesObjects.Add(hit.attachedRigidbody);
+                }
             }
         }
 

@@ -27,15 +27,18 @@ public class Spawner : MonoBehaviour
         {
             int cubesCount = Random.Range(1, _maxCubesCount + 1);
             cube.transform.localScale = new Vector3(cube.transform.localScale.x / 2, cube.transform.localScale.y / 2, cube.transform.localScale.z / 2);
+            List<Cube> cubes = new List<Cube>();
 
             for (int i = 0; i < cubesCount; i++)
             {
                 int cubeColor = Random.Range(0, _materials.Count);
                 Cube newCube = Instantiate(cube, cube.transform.position, Quaternion.identity);
-                newCube.SetMaterial(_materials[cubeColor]);
-                newCube.DecreaseDecayProbability();
+                newCube.Init(_materials[cubeColor]);
                 CubeCreated?.Invoke(newCube);
+                cubes.Add(newCube);
             }
+
+            cube.AddLittleCubes(cubes);
         }
     }
 

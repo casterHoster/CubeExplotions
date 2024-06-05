@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent (typeof(Explotion))]
@@ -7,11 +8,13 @@ public class Cube : MonoBehaviour
 {
     private Renderer _renderer;
     private Explotion _explotion;
+    private List<Cube> _littleCubes;
 
     public int DecayProbability { get; private set; }
 
     private void Awake()
     {
+        _littleCubes = new List<Cube>();
         _renderer = GetComponent<Renderer> ();
         _explotion = GetComponent<Explotion> ();
     }
@@ -21,18 +24,24 @@ public class Cube : MonoBehaviour
         DecayProbability = 100;
     } 
 
-    public void DecreaseDecayProbability()
+    public void Init(Material material)
     {
         DecayProbability /= 2;
-    }
-
-    public void SetMaterial(Material material)
-    {
         _renderer.sharedMaterial = material;
     }
 
     public Explotion GetExplotion()
     {
         return _explotion;
+    }
+
+    public void Explode()
+    {
+        _explotion.Implement(_littleCubes);
+    }
+
+    public void AddLittleCubes(List<Cube> cubes)
+    {
+        _littleCubes = cubes;
     }
 }

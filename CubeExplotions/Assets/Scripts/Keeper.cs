@@ -15,6 +15,11 @@ public class Keeper : MonoBehaviour
         spawner.CubeCreated += AddCube;
     }
 
+    private void OnDisable()
+    {
+        spawner.CubeCreated -= AddCube;
+    }
+
     private void Awake()
     {
         _cubeList = new List<Cube>();
@@ -24,6 +29,7 @@ public class Keeper : MonoBehaviour
     {
         CubeRemoved?.Invoke(cube);
         _cubeList.Remove(cube);
+        cube.Explode();
     }
 
     private void AddCube(Cube cube)

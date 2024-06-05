@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _range: 20
-  _force: 3000
+  _force: 1000
 --- !u!114 &4398185218776543777
 MonoBehaviour:
   m_ObjectHideFlags: 0
