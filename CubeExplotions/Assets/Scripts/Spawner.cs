@@ -12,7 +12,7 @@ public class Spawner : MonoBehaviour
 
     private int _maxProbability = 100;
 
-    public UnityAction<Cube> CubeCreated;
+    public event UnityAction<Cube> CubeCreated;
 
     private void Start()
     {
@@ -45,14 +45,8 @@ public class Spawner : MonoBehaviour
     private bool CalculateCreation(int currentProbability)
     {
         int probabilityCreate = Random.Range(0, _maxProbability + 1);
+        return probabilityCreate < currentProbability;
 
-        if (probabilityCreate < currentProbability || currentProbability == 0)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+
     }
 }
