@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(Cube))]
+
 public class Explotion : MonoBehaviour
 {
     [SerializeField] private float _range;
@@ -9,7 +11,7 @@ public class Explotion : MonoBehaviour
 
     private Cube _cube;
 
-    public UnityAction<Cube> Pushed;
+    public event UnityAction<Cube> Pushed;
 
     private void Start()
     {
@@ -40,7 +42,7 @@ public class Explotion : MonoBehaviour
         {
             foreach (Cube cube in cubes)
             {
-                if (hit.attachedRigidbody == cube.GetComponent<Rigidbody>())
+                if (cube.TryGetComponent<Rigidbody>(out Rigidbody rigidbody) && hit.attachedRigidbody == rigidbody)
                 {
                     reachesObjects.Add(hit.attachedRigidbody);
                 }

@@ -8,7 +8,7 @@ public class Keeper : MonoBehaviour
 
     private List<Cube> _cubeList;
 
-    public UnityAction<Cube> CubeRemoved;
+    public event UnityAction<Cube> CubeRemoved;
 
     private void OnEnable()
     {
