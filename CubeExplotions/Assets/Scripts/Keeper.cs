@@ -35,7 +35,6 @@ public class Keeper : MonoBehaviour
     private void AddCube(Cube cube)
     {
         _cubeList.Add(cube);
-        Explotion explotion = cube.GetExplotion();
-        explotion.Pushed += Exclude;
+        cube.Pushed += Exclude;
     }
 }

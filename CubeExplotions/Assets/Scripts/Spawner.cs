@@ -46,7 +46,5 @@ public class Spawner : MonoBehaviour
     {
         int probabilityCreate = Random.Range(0, _maxProbability + 1);
         return probabilityCreate < currentProbability;
-
-
     }
 }

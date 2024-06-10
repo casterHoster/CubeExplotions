@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent (typeof(Explotion))]
 [RequireComponent (typeof (Renderer))]
@@ -12,6 +13,8 @@ public class Cube : MonoBehaviour
 
     public int DecayProbability { get; private set; }
 
+    public event UnityAction<Cube> Pushed;
+
     private void Awake()
     {
         _littleCubes = new List<Cube>();
@@ -22,17 +25,18 @@ public class Cube : MonoBehaviour
     public Cube()
     {
         DecayProbability = 100;
-    } 
+    }
+
+    private void OnMouseUpAsButton()
+    {
+        Pushed?.Invoke(this);
+        Explode();
+    }
 
     public void Init(Material material)
     {
         DecayProbability /= 2;
         _renderer.sharedMaterial = material;
-    }
-
-    public Explotion GetExplotion()
-    {
-        return _explotion;
     }
 
     public void Explode()
