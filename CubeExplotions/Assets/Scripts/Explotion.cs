@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 [RequireComponent(typeof(Cube))]
 
@@ -8,13 +7,6 @@ public class Explotion : MonoBehaviour
 {
     [SerializeField] private float _range;
     [SerializeField] private float _force;
-
-    private Cube _cube;
-
-    private void Start()
-    {
-        _cube = GetComponent<Cube>();
-    }
 
     public void Implement(List<Cube> cubes)
     {

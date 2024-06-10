@@ -33,15 +33,15 @@ public class Cube : MonoBehaviour
         Explode();
     }
 
+    private void Explode()
+    {
+        _explotion.Implement(_littleCubes);
+    }
+
     public void Init(Material material)
     {
         DecayProbability /= 2;
         _renderer.sharedMaterial = material;
-    }
-
-    public void Explode()
-    {
-        _explotion.Implement(_littleCubes);
     }
 
     public void AddLittleCubes(List<Cube> cubes)

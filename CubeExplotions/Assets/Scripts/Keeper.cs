@@ -29,7 +29,6 @@ public class Keeper : MonoBehaviour
     {
         CubeRemoved?.Invoke(cube);
         _cubeList.Remove(cube);
-        cube.Explode();
     }
 
     private void AddCube(Cube cube)
