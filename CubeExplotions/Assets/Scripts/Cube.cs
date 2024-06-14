@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent (typeof(Explotion))]
-[RequireComponent (typeof (Renderer))]
+[RequireComponent(typeof(Explotion))]
+[RequireComponent(typeof(Renderer))]
 
 public class Cube : MonoBehaviour
 {
@@ -18,8 +18,8 @@ public class Cube : MonoBehaviour
     private void Awake()
     {
         _littleCubes = new List<Cube>();
-        _renderer = GetComponent<Renderer> ();
-        _explotion = GetComponent<Explotion> ();
+        _renderer = GetComponent<Renderer>();
+        _explotion = GetComponent<Explotion>();
     }
 
     public Cube()
@@ -30,18 +30,32 @@ public class Cube : MonoBehaviour
     private void OnMouseUpAsButton()
     {
         Pushed?.Invoke(this);
-        Explode();
+
+        if (_littleCubes.Count > 0)
+        {
+            ExplodeWithLittleCubes();
+        }
+        else
+        {
+            ExplodeWithoutLittleCubes();
+        }
     }
 
-    private void Explode()
+    private void ExplodeWithLittleCubes()
     {
         _explotion.Implement(_littleCubes);
+    }
+
+    private void ExplodeWithoutLittleCubes()
+    {
+        _explotion?.Implement();
     }
 
     public void Init(Material material)
     {
         DecayProbability /= 2;
         _renderer.sharedMaterial = material;
+        _explotion.DoubleForceAndRange();
     }
 
     public void AddLittleCubes(List<Cube> cubes)
