@@ -25,9 +25,13 @@ public class Keeper : MonoBehaviour
         _cubeList = new List<Cube>();
     }
 
-    private void Exclude(Cube cube)
+    private void Exclude(Cube cube, bool isSplit)
     {
-        CubeRemoved?.Invoke(cube);
+        if (isSplit)
+        {
+            CubeRemoved?.Invoke(cube);
+        }
+
         _cubeList.Remove(cube);
     }
 

@@ -10,14 +10,15 @@ public class Cube : MonoBehaviour
     private Renderer _renderer;
     private Explotion _explotion;
     private List<Cube> _littleCubes;
+    private int _maxProbabilityPercent = 100;
 
-    public event UnityAction<Cube> Pushed;
+    public event UnityAction<Cube, bool> Pushed;
 
-    public int DecayProbability { get; private set; }
+    public int DecayProbabilityPercent { get; private set; }
 
     public Cube()
     {
-        DecayProbability = 100;
+        DecayProbabilityPercent = 100;
     }
 
     private void Awake()
@@ -29,9 +30,10 @@ public class Cube : MonoBehaviour
 
     private void OnMouseUpAsButton()
     {
-        Pushed?.Invoke(this);
+        bool isSplit = CalculateSplit(DecayProbabilityPercent);
+        Pushed?.Invoke(this, isSplit);
 
-        if (_littleCubes.Count > 0)
+        if (isSplit)
         {
             ExplodeWithLittleCubes();
         }
@@ -41,9 +43,9 @@ public class Cube : MonoBehaviour
         }
     }
 
-    public void Init(Material material)
+    public void Init(Material material, int olderCubeProbabilityPercent)
     {
-        DecayProbability /= 2;
+        DecayProbabilityPercent = olderCubeProbabilityPercent / 2;
         _renderer.sharedMaterial = material;
         _explotion.DoubleForceAndRange();
     }
@@ -61,5 +63,11 @@ public class Cube : MonoBehaviour
     private void ExplodeWithoutLittleCubes()
     {
         _explotion?.Implement();
+    }
+
+    private bool CalculateSplit(int currentProbability)
+    {
+        int probabilityCreate = Random.Range(0, _maxProbabilityPercent + 1);
+        return probabilityCreate < currentProbability;
     }
 }

@@ -8,9 +8,9 @@ public class Explotion : MonoBehaviour
     [SerializeField] private float _range;
     [SerializeField] private float _force;
 
-    public void Implement(List<Cube> cubes)
+    public void Implement(List<Cube> littleCubes)
     {
-        foreach (Rigidbody explodableObject in GetExplodableObjects(cubes))
+        foreach (Rigidbody explodableObject in GetExplodableObjects(littleCubes))
         {
             if (GetDistance(explodableObject) != 0)
             {
