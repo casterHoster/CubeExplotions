@@ -4,12 +4,13 @@ using UnityEngine.Events;
 
 [RequireComponent(typeof(Explotion))]
 [RequireComponent(typeof(Renderer))]
+[RequireComponent (typeof(Rigidbody))]
 
 public class Cube : MonoBehaviour
 {
     private Renderer _renderer;
     private Explotion _explotion;
-    private List<Cube> _littleCubes;
+    private List<Rigidbody> _littleCubesBodies;
     private int _maxProbabilityPercent = 100;
 
     public event UnityAction<Cube, bool> Pushed;
@@ -23,7 +24,7 @@ public class Cube : MonoBehaviour
 
     private void Awake()
     {
-        _littleCubes = new List<Cube>();
+        _littleCubesBodies = new List<Rigidbody>();
         _renderer = GetComponent<Renderer>();
         _explotion = GetComponent<Explotion>();
     }
@@ -50,14 +51,14 @@ public class Cube : MonoBehaviour
         _explotion.DoubleForceAndRange();
     }
 
-    public void AddLittleCubes(List<Cube> cubes)
+    public void AddLittleCubesBodies(List<Rigidbody> cubesBodies)
     {
-        _littleCubes = cubes;
+        _littleCubesBodies = cubesBodies;
     }
 
     private void ExplodeWithLittleCubes()
     {
-        _explotion.Implement(_littleCubes);
+        _explotion.Implement(_littleCubesBodies);
     }
 
     private void ExplodeWithoutLittleCubes()

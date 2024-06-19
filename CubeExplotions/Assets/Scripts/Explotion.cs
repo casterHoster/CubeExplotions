@@ -8,9 +8,9 @@ public class Explotion : MonoBehaviour
     [SerializeField] private float _range;
     [SerializeField] private float _force;
 
-    public void Implement(List<Cube> littleCubes)
+    public void Implement(List<Rigidbody> littleCubesBodies)
     {
-        foreach (Rigidbody explodableObject in GetExplodableObjects(littleCubes))
+        foreach (Rigidbody explodableObject in littleCubesBodies)
         {
             if (GetDistance(explodableObject) != 0)
             {
@@ -58,20 +58,20 @@ public class Explotion : MonoBehaviour
         return reachesObjects;
     }
 
-    private List<Rigidbody> GetExplodableObjects(List<Cube> cubes)
-    {
-        List<Rigidbody> reachesObjects = new List<Rigidbody>();
+    //private List<Rigidbody> GetExplodableObjects(List<Cube> cubes)
+    //{
+    //    List<Rigidbody> reachesObjects = new List<Rigidbody>();
 
-        foreach (Cube cube in cubes)
-        {
-            if (cube.TryGetComponent<Rigidbody>(out Rigidbody rigidbody))
-            {
-                reachesObjects.Add(rigidbody);
-            }
-        }
+    //    foreach (Cube cube in cubes)
+    //    {
+    //        if (cube.TryGetComponent<Rigidbody>(out Rigidbody rigidbody))
+    //        {
+    //            reachesObjects.Add(rigidbody);
+    //        }
+    //    }
 
-        return reachesObjects;
-    }
+    //    return reachesObjects;
+    //}
 
     private float GetDistance(Rigidbody explodableObject)
     {

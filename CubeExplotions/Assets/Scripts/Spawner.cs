@@ -10,8 +10,6 @@ public class Spawner : MonoBehaviour
     [SerializeField] private float _cubeSize;
     [SerializeField] private List<Material> _materials;
 
-    //private int _maxProbability = 100;
-
     public event UnityAction<Cube> CubeCreated;
 
     private void Start()
@@ -23,30 +21,20 @@ public class Spawner : MonoBehaviour
 
     private void Create(Cube cube)
     {
-        //if (CalculateCreation(cube.DecayProbabilityPercent))
-        //{
         int cubesCount = Random.Range(1, _maxCubesCount + 1);
         cube.transform.localScale = new Vector3(cube.transform.localScale.x / 2, cube.transform.localScale.y / 2, cube.transform.localScale.z / 2);
-        List<Cube> cubes = new List<Cube>();
+        List<Rigidbody> cubesBodies = new List<Rigidbody>();
 
         for (int i = 0; i < cubesCount; i++)
         {
             int cubeColor = Random.Range(0, _materials.Count);
             Cube newCube = Instantiate(cube, cube.transform.position, Quaternion.identity);
-            Debug.Log(cube.DecayProbabilityPercent);
             newCube.Init(_materials[cubeColor], cube.DecayProbabilityPercent);
-            Debug.Log(newCube.DecayProbabilityPercent);
             CubeCreated?.Invoke(newCube);
-            cubes.Add(newCube);
+            Rigidbody newCubeBody = newCube.GetComponent<Rigidbody>();
+            cubesBodies.Add(newCubeBody);
         }
 
-        cube.AddLittleCubes(cubes);
-        //}
+        cube.AddLittleCubesBodies(cubesBodies);
     }
-
-    //private bool CalculateCreation(int currentProbability)
-    //{
-    //    int probabilityCreate = Random.Range(0, _maxProbability + 1);
-    //    return probabilityCreate < currentProbability;
-    //}
 }
