@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 public class Keeper : MonoBehaviour
 {
-    [SerializeField] private Spawner spawner;
+    [SerializeField] private Spawner _spawner;
 
     private List<Cube> _cubeList;
 
@@ -12,12 +12,12 @@ public class Keeper : MonoBehaviour
 
     private void OnEnable()
     {
-        spawner.CubeCreated += AddCube;
+        _spawner.CubeCreated += AddCube;
     }
 
     private void OnDisable()
     {
-        spawner.CubeCreated -= AddCube;
+        _spawner.CubeCreated -= AddCube;
     }
 
     private void Awake()

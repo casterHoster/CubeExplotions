@@ -8,27 +8,25 @@ public class Explotion : MonoBehaviour
     [SerializeField] private float _range;
     [SerializeField] private float _force;
 
+    private int _factorForceAndRangeIncrease = 2;
+    private int _factorImplementCalculate = 10;
+    private float _distance;
+
+
     public void Implement(List<Rigidbody> littleCubesBodies)
     {
-        foreach (Rigidbody explodableObject in littleCubesBodies)
+        if (littleCubesBodies.Count == 0)
         {
-            if (GetDistance(explodableObject) != 0)
-            {
-                _force = _force / GetDistance(explodableObject) * 10;
-                explodableObject.AddExplosionForce(_force, transform.position, _range);
-            }
+            littleCubesBodies = GetExplodableObjects();
         }
 
-        Destroy(gameObject);
-    }
-
-    public void Implement()
-    {
-        foreach (Rigidbody explodableObject in GetExplodableObjects())
+        foreach (Rigidbody explodableObject in littleCubesBodies)
         {
-            if (GetDistance(explodableObject) != 0)
+            _distance = GetDistance(explodableObject);
+            
+            if (_distance != 0)
             {
-                _force = _force / GetDistance(explodableObject) * 10;
+                _force = _force / _distance * _factorImplementCalculate;
                 explodableObject.AddExplosionForce(_force, transform.position, _range);
             }
         }
@@ -38,8 +36,8 @@ public class Explotion : MonoBehaviour
 
     public void DoubleForceAndRange()
     {
-        _range *= 2;
-        _force *= 2;
+        _range *= _factorForceAndRangeIncrease;
+        _force *= _factorForceAndRangeIncrease;
     }
 
     private List<Rigidbody> GetExplodableObjects()
@@ -57,21 +55,6 @@ public class Explotion : MonoBehaviour
 
         return reachesObjects;
     }
-
-    //private List<Rigidbody> GetExplodableObjects(List<Cube> cubes)
-    //{
-    //    List<Rigidbody> reachesObjects = new List<Rigidbody>();
-
-    //    foreach (Cube cube in cubes)
-    //    {
-    //        if (cube.TryGetComponent<Rigidbody>(out Rigidbody rigidbody))
-    //        {
-    //            reachesObjects.Add(rigidbody);
-    //        }
-    //    }
-
-    //    return reachesObjects;
-    //}
 
     private float GetDistance(Rigidbody explodableObject)
     {

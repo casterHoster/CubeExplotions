@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 [RequireComponent(typeof(Explotion))]
 [RequireComponent(typeof(Renderer))]
-[RequireComponent (typeof(Rigidbody))]
+[RequireComponent(typeof(Rigidbody))]
 
 public class Cube : MonoBehaviour
 {
@@ -12,15 +12,11 @@ public class Cube : MonoBehaviour
     private Explotion _explotion;
     private List<Rigidbody> _littleCubesBodies;
     private int _maxProbabilityPercent = 100;
+    private int _dividor = 2;
 
     public event UnityAction<Cube, bool> Pushed;
 
     public int DecayProbabilityPercent { get; private set; }
-
-    public Cube()
-    {
-        DecayProbabilityPercent = 100;
-    }
 
     private void Awake()
     {
@@ -33,20 +29,12 @@ public class Cube : MonoBehaviour
     {
         bool isSplit = CalculateSplit(DecayProbabilityPercent);
         Pushed?.Invoke(this, isSplit);
-
-        if (isSplit)
-        {
-            ExplodeWithLittleCubes();
-        }
-        else
-        {
-            ExplodeWithoutLittleCubes();
-        }
+        ExplodeWithLittleCubes();
     }
 
     public void Init(Material material, int olderCubeProbabilityPercent)
     {
-        DecayProbabilityPercent = olderCubeProbabilityPercent / 2;
+        DecayProbabilityPercent = olderCubeProbabilityPercent / _dividor;
         _renderer.sharedMaterial = material;
         _explotion.DoubleForceAndRange();
     }
@@ -59,11 +47,6 @@ public class Cube : MonoBehaviour
     private void ExplodeWithLittleCubes()
     {
         _explotion.Implement(_littleCubesBodies);
-    }
-
-    private void ExplodeWithoutLittleCubes()
-    {
-        _explotion?.Implement();
     }
 
     private bool CalculateSplit(int currentProbability)
