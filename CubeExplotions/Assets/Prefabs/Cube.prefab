@@ -161,3 +161,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f3a096458f3f604499ff370bd55d1ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <DecayProbabilityPercent>k__BackingField: 200

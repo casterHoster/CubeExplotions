@@ -13,14 +13,9 @@ public class Explotion : MonoBehaviour
     private float _distance;
 
 
-    public void Implement(List<Rigidbody> littleCubesBodies)
+    public void Implement(List<Rigidbody> smallerCubes)
     {
-        if (littleCubesBodies.Count == 0)
-        {
-            littleCubesBodies = GetExplodableObjects();
-        }
-
-        foreach (Rigidbody explodableObject in littleCubesBodies)
+        foreach (Rigidbody explodableObject in smallerCubes)
         {
             _distance = GetDistance(explodableObject);
             
@@ -32,6 +27,12 @@ public class Explotion : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    public void Implement()
+    {
+        List<Rigidbody> smallerCubes = GetExplodableObjects();
+        Implement(smallerCubes);
     }
 
     public void DoubleForceAndRange()

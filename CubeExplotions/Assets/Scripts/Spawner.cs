@@ -6,17 +6,14 @@ public class Spawner : MonoBehaviour
 {
     [SerializeField] private int _maxCubesCount;
     [SerializeField] private Cube _cubeSample;
-    [SerializeField] private Keeper _keeper;
     [SerializeField] private float _cubeSize;
     [SerializeField] private List<Material> _materials;
 
-    public event UnityAction<Cube> CubeCreated;
-
     private void Start()
     {
-        _cubeSample.transform.localScale = new Vector3(_cubeSize, _cubeSize, _cubeSize);
-        _keeper.CubeRemoved += Create;
-        Create(_cubeSample);
+        var cube = Instantiate(_cubeSample);
+        cube.transform.localScale = new Vector3(_cubeSize, _cubeSize, _cubeSize);
+        Create(cube);
     }
 
     private void Create(Cube cube)
@@ -30,11 +27,11 @@ public class Spawner : MonoBehaviour
             int cubeColor = Random.Range(0, _materials.Count);
             Cube newCube = Instantiate(cube, cube.transform.position, Quaternion.identity);
             newCube.Init(_materials[cubeColor], cube.DecayProbabilityPercent);
-            CubeCreated?.Invoke(newCube);
-            Rigidbody newCubeBody = newCube.GetComponent<Rigidbody>();
+            newCube.CubeSplit += Create;
+            newCube.TryGetComponent(out Rigidbody newCubeBody);
             cubesBodies.Add(newCubeBody);
         }
 
-        cube.AddLittleCubesBodies(cubesBodies);
+        cube.Explode(cubesBodies);
     }
 }
