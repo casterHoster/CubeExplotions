@@ -13,10 +13,10 @@ public class Spawner : MonoBehaviour
     {
         var cube = Instantiate(_cubeSample);
         cube.transform.localScale = new Vector3(_cubeSize, _cubeSize, _cubeSize);
-        Create(cube);
+        CreateCubes(cube);
     }
 
-    private void Create(Cube cube)
+    private void CreateCubes(Cube cube)
     {
         int cubesCount = Random.Range(1, _maxCubesCount + 1);
         cube.transform.localScale = new Vector3(cube.transform.localScale.x / 2, cube.transform.localScale.y / 2, cube.transform.localScale.z / 2);
@@ -27,9 +27,12 @@ public class Spawner : MonoBehaviour
             int cubeColor = Random.Range(0, _materials.Count);
             Cube newCube = Instantiate(cube, cube.transform.position, Quaternion.identity);
             newCube.Init(_materials[cubeColor], cube.DecayProbabilityPercent);
-            newCube.CubeSplit += Create;
-            newCube.TryGetComponent(out Rigidbody newCubeBody);
+            newCube.IsSplit += CreateCubes;
+
+            if (newCube.TryGetComponent(out Rigidbody newCubeBody))
+            {
             cubesBodies.Add(newCubeBody);
+            }
         }
 
         cube.Explode(cubesBodies);

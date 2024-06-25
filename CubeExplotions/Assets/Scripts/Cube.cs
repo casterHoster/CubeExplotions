@@ -13,7 +13,7 @@ public class Cube : MonoBehaviour
     private int _maxProbabilityPercent = 100;
     private int _dividor = 2;
 
-    public event UnityAction<Cube> CubeSplit;
+    public event UnityAction<Cube> IsSplit;
 
     [field: SerializeField] public int DecayProbabilityPercent { get; private set; }
 
@@ -51,7 +51,7 @@ public class Cube : MonoBehaviour
     {
         if (isSplit)
         {
-            CubeSplit?.Invoke(this);
+            IsSplit?.Invoke(this);
         }
         else
         {

@@ -12,13 +12,12 @@ public class Explotion : MonoBehaviour
     private int _factorImplementCalculate = 10;
     private float _distance;
 
-
     public void Implement(List<Rigidbody> smallerCubes)
     {
         foreach (Rigidbody explodableObject in smallerCubes)
         {
             _distance = GetDistance(explodableObject);
-            
+
             if (_distance != 0)
             {
                 _force = _force / _distance * _factorImplementCalculate;
